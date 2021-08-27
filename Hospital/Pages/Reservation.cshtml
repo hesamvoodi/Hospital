@@ -1,0 +1,82 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.ReservationModel
+@{
+    Layout = "Shared/_MainLayout";
+}
+<!-- Page Title -->
+<div class="page-title-area page-title-three">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="page-title-item-two">
+                <h2>دکتر @Model.Schedules.First().Doctor.FirstName @Model.Schedules.First().Doctor.LastName</h2>
+                <h3>متخصص @Model.Schedules.First().Doctor.DoctorGroup.Name</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Doctor Details -->
+<div class="doctor-details-area pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="doctor-details-item doctor-details-left">
+                    @if (Model.Schedules.First().Doctor.ImageName != null)
+                    {
+                        <img src="~/DoctorImage/@Model.Schedules.First().Doctor.ImageName" alt="Doctor" class="mb-0">
+                    }
+                    else
+                    {
+                        <img src="~/MainAssets/img/profile.jpg" alt="Doctor" class="mb-0">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="doctor-details-item">
+                    <div class="doctor-details-right">
+                        <div class="doctor-details-biography">
+                            <h3>وقت‌های موجود برای رزرو</h3>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>روز ویزیت</th>
+                                        <th>
+                                            زمان شروع ویزیت
+                                        </th>
+                                        <th>
+                                            زمان پایان ویزیت
+                                        </th>
+                                        <th>
+                                            رزرو
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Schedules)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.StartDate.ToShamsiDate()
+                                            </td>
+                                            <td>
+                                                @item.StartDate.ToShamsiTime()
+                                            </td>
+                                            <td>
+                                                @item.EndDate.ToShamsiTime()
+                                            </td>
+                                            <td>
+                                                <a asp-page="/FinalApproval" asp-route-id="@Convert.ToBase64String(BitConverter.GetBytes(item.Id))" class="btn btn-outline-primary">رزرو</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Doctor Details -->

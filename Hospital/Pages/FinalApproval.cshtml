@@ -1,0 +1,130 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.FinalApprovalModel
+@{
+    Layout = "Shared/_MainLayout";
+}
+
+<!-- Page Title -->
+<div class="page-title-area page-title-three">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="page-title-item-two">
+                <h2>دکتر @Model.Doctor.FirstName @Model.Doctor.LastName</h2>
+                <h3>متخصص @Model.Doctor.DoctorGroup.Name</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Doctor Details -->
+<div class="doctor-details-area pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="doctor-details-item doctor-details-left">
+                    @if (Model.Doctor.ImageName != null)
+                    {
+                        <img src="~/DoctorImage/@Model.Doctor.ImageName" alt="Doctor" class="mb-0">
+                    }
+                    else
+                    {
+                        <img src="~/MainAssets/img/profile.jpg" alt="Doctor" class="mb-0">
+                    }
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="doctor-details-item">
+                    <div class="doctor-details-biography">
+                        <div class="card p-3">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-3 p-3">
+                                        <h3>نام دکتر:</h3>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <p style=" font-size: 20px; ">@Model.Doctor.FirstName @Model.Doctor.LastName</p>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <h3>تخصص:</h3>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <p style=" font-size: 20px; ">@Model.DoctorGroup.Name</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 p-3">
+                                        <h3>روز ویزیت:</h3>
+                                    </div>
+                                    <div class="col-6 p-3">
+                                        <p style=" font-size: 20px;">@Model.Schedule.StartDate.ToShamsiDate()</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 p-3">
+                                        <h3>ساعت شروع:</h3>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <p style=" font-size: 20px; ">@Model.Schedule.StartDate.ToShamsiTime()</p>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <h3>ساعت پایان:</h3>
+                                    </div>
+                                    <div class="col-3 p-3">
+                                        <p style=" font-size: 20px; ">@Model.Schedule.EndDate.ToShamsiTime()</p>
+                                    </div>
+                                </div>
+                                <form method="post" id="PayForm">
+                                    <input type="hidden" name="scheduleId" value="@Convert.ToBase64String(BitConverter.GetBytes(Model.Schedule.Id))"/>
+                                    @if (Model.Schedule.MaximumExtraMinute > 0 || Model.Schedule.Doctor.ExtraTimePricePerMinute > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 p-3">
+                                                <label for="extraMinute" class="pb-2">وقت اضافه(قیمت هر دقیقه وقت اضافه @Model.Schedule.Doctor.ExtraTimePricePerMinute تومن است).</label>
+                                                <input id="extraMinute" name="extraMinute" type="number" class="form-control" value="0" min="0" max="@Model.Schedule.MaximumExtraMinute">
+                                            </div>
+                                        </div>
+                                    }
+                                    <div asp-validation-summary="All" class="text-warning"></div>
+                                </form>
+                                <div class="row">
+
+                                    <div class="col-8 pt-3" style="text-align: center;">
+                                        <span>
+                                            قیمت کل:
+                                        </span>
+                                    </div>
+
+                                    <div class="col-12 p-3 mb-4">
+                                        <h1 id="TotalPrice" class="text-center">@Model.Schedule.Doctor.VisitPrice تومان</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3">
+                            <i class="icofont-info text-primary m-2"></i>
+                            لطفا توجه داشته باشید قبل از پرداخت، فایل خود و اطلاعات خود را
+                            <a asp-page="/UserPanel/EditProfile" asp-route-ReturnUrl="@Convert.ToBase64String(BitConverter.GetBytes(Model.Schedule.Id))">در این لینک </a>آپلود و نکمیل کنید.
+                        </p>
+                        <button type="submit" form="PayForm" class="btn btn-primary mt-3">تایید نهایی و پرداخت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Doctor Details -->
+
+@section Scripts
+{
+    @if (Model.Schedule.MaximumExtraMinute > 0 || Model.Schedule.Doctor.ExtraTimePricePerMinute > 0)
+    {
+        <script>
+            $("#extraMinute").change(function() {
+                if (parseInt($("#extraMinute").val()) <= @Model.Schedule.MaximumExtraMinute && parseInt($("#extraMinute").val()) >= 0) {
+                    $("#TotalPrice").html(@Model.Schedule.Doctor.VisitPrice + parseInt($("#extraMinute").val()) * @Model.Schedule.Doctor.ExtraTimePricePerMinute + " تومان");
+                }
+            });
+        </script>
+    }
+}

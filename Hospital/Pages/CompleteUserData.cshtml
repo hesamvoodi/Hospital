@@ -1,0 +1,113 @@
+﻿@page
+@using Hospital.Models.Enums
+@model Hospital.Pages.CompleteUserDataModel
+@{
+    Layout = "Shared/_ConfirmLayout";
+    ViewData["Title"] = "تکمیل اطلاعات";
+}
+
+<div class="card-header bg-white">
+    <h4 class="card-title" id="basic-layout-form"> تکمیل اطلاعات </h4>
+    <p class="mb-0"> لطفا اطلاعات خواسته شده را به درستی وارد کنید </p>
+</div>
+<div class="card-content">
+    <div class="px-3">
+        <form class="form" method="post">
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> اطلاعات شخصی </h4>
+                <div asp-validation-summary="All" class="row text-warning"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.Name">نام<span class="text-danger"> *</span></label>
+                            <input type="text" asp-for="UserInfo.Name" class="form-control" placeholder=" نام خود را اینجا وارد کنید ">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.LastName"> نام خانوادگی <span class="text-danger"> *</span> </label>
+                            <input asp-for="UserInfo.LastName" type="text" class="form-control" placeholder=" نام خانوادگی خود را اینجا وارد کنید">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.HeightCm"> قد به سانتی متر <span class="text-danger"> *</span></label>
+                            <input asp-for="UserInfo.HeightCm" type="number" class="form-control" placeholder=" قد خود را اینجا وارد کنید">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.WeightKg"> وزن به کیلو گرم <span class="text-danger"> *</span></label>
+                            <input asp-for="UserInfo.WeightKg" type="number" class="form-control" placeholder=" وزن خود را اینجا وارد کنید ">
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="form-section"><i class="ft-file-text"></i> جزییات </h4>
+
+
+
+                <div class="row">
+
+                    <div class="col-md-6 form-group">
+                        <label asp-for="UserInfo.Age"> سن </label>
+                        <input asp-for="UserInfo.Age" type="number" class="form-control" placeholder="لطفا سن خود را وارد کنید.">
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.Gender"> جنسیت <span class="text-danger"> *</span></label>
+                            <select asp-for="UserInfo.Gender" asp-items="Html.GetEnumSelectList(typeof(Gender))" class="form-control">
+                                <option value="" selected="" disabled="">جنسیت خود را انتخاب کنید</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.BloodType"> گروه خونی </label>
+                            <select class="form-control" asp-for="UserInfo.BloodType" asp-items="Html.GetEnumSelectList(typeof(BloodType))">
+                                <option value="" selected="" disabled=""> گروه خونی خود را انتخاب کنید </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="UserInfo.DiseaseBackground"> سابقه بیماری </label>
+                            <input asp-for="UserInfo.DiseaseBackground" type="text" class="form-control" placeholder="اگر سابقه بیماری دارید اینجا وارد نمایید.">
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+                    <label asp-for="UserInfo.ExtraDescription"> توضیحات تکمیلی </label>
+                    <textarea asp-for="UserInfo.ExtraDescription" rows="5" class="form-control" placeholder=" اگر مورد خاصی هست که لازم است دکتر اگاه باشد اینجا بنویسید "></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-raised btn-raised btn-primary">
+                    <i class="fa fa-check-square-o"></i> تایید
+                </button>
+                <button type="submit" form="logOut" class="btn btn-raised btn-raised btn-warning mr-1">
+                    <i class="ft-x"></i> لغو
+                </button>
+                <a asp-page="/UserPanel/DoctorRequest" class="btn btn-raised btn-raised btn-outline-instagram">
+                    <i class="fa fa-check-square-o"></i> درخواست پزشکی
+                </a>
+            </div>
+        </form>
+        <form id="logOut" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post"></form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}

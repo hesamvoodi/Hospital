@@ -1,0 +1,73 @@
+﻿@page "/RegisterConfirmation"
+@model Hospital.Areas.Identity.Pages.Account.RegisterConfirmationModel
+@{
+    Layout = "/Pages/Shared/_ConfirmLayout.cshtml";
+    ViewData["Title"] = "تایید هویت";
+}
+
+<div class="card-header bg-white">
+    <h4 class="card-title" id="horz-layout-card-center"> تایید شماره تلفن </h4>
+    <p> کد تایید برای شما ارسال شد </p>
+</div>
+<div class="card-content">
+    <div class="px-3">
+        <form id="resendCode" method="post" asp-page-handler="SendCode">
+            <input type="hidden" asp-for="Id"/>
+        </form>
+        <form method="post" class="form form-horizontal">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-body">
+                <input type="hidden" value="@Model.Id"/>
+                <div class="form-group row">
+                    <label class="col-md-3 label-control" for="eventRegInput1"> کد تایید(دمو): @Model.DemoCode </label>
+                    <div class="col-md-9">
+                        <input type="hidden" asp-for="Id"/>
+                        <input type="text" id="eventRegInput1" class="form-control" name="number" placeholder=" کد تایید را اینجا وارد کنید ">
+                    </div>
+                </div>
+                <div class="row col-12">
+                    <input type="submit" form="resendCode" class="col-6 btn-link" value=" ارسال مجدد کد تایید" />
+                    <span class="col-6" id="time"></span>
+                </div>
+            </div>
+
+            <div class="form-actions center">
+                <a asp-page="Register" class="btn btn-raised btn-warning mr-1">
+                    <i class="ft-x"></i> ویرایش شماره تلفن
+                </a>
+                <button type="submit" class="btn btn-raised btn-primary">
+                    <i class="fa fa-check-square-o"></i> تایید
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var fiveMinutes = @Model.RemainingTime,
+                display = document.querySelector('#time');
+            startTimer(fiveMinutes, display);
+        };
+    </script>
+    <partial name="/Pages/Shared/_ValidationScriptsPartial.cshtml"/>
+}

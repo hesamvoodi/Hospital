@@ -1,0 +1,116 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.DoctorPanel.ManageTime.IndexModel
+@{
+    ViewData["Title"] = "زمان بندی دکتر";
+    Layout = "~/Pages/Shared/_DoctorPanelLayout.cshtml";
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+
+            <div class="col-sm-12 col-md-6">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter" style="float: right; padding-left: 5px;">
+                    <form method="get">
+                        <label>
+                            وضعیت سفارش:
+                            <select name="statusInput" asp-items="ViewBag.ReservationStatus" class="form-control form-control-sm">
+                                <option value="" disabled selected>فیلتر با وضعیت رزرو</option>
+                            </select>
+                        </label>
+                        <input type="submit" class="btn btn-primary" value="اعمال فیلتر" style="vertical-align: 0"/>
+                        <a asp-page="Index" class="btn btn-sm btn-outline-warning" style="vertical-align: 0">ریست</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-content">
+            <div id="IndexRefresh">
+                <div class="card-body card-dashboard table-responsive">
+                    @if (Model.Orders.Count > 0)
+                    {
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                            <tr>
+                                <th> نام و نام خانوادگی کاربر</th>
+                                <th>روز ویزیت</th>
+                                <th> زمان شروع ویزیت </th>
+                                <th> زمان پایان ویزیت </th>
+                                <th> وقت اضافه </th>
+                                <th> هزینه کل </th>
+                                <th> وضعیت </th>
+                                <th> دستورات </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model.Orders)
+                            {
+                                <tr>
+                                    <td> @item.UserFullName</td>
+                                    <td> @item.Schedule.StartDate.ToShamsiDate()</td>
+                                    <td> @item.Schedule.StartDate.ToShamsiTime() </td>
+                                    <td> @item.Schedule.EndDate.ToShamsiTime() </td>
+                                    <td> @item.Schedule.ExtraMinute </td>
+                                    <td> @item.TotalPrice </td>
+                                    <td> @item.Status </td>
+                                    <td>
+                                        @if (item.Status == "وقت رزرو نشده")
+                                        {
+                                            <a class="danger p-0" onclick="Deletee('/TimeDelete?id=@item.Schedule.Id')">
+                                                <i class="ft-x font-medium-3 mr-2"></i>
+                                            </a>
+                                        }
+                                        else if (item.Status == "در حال برگزاری لطفا وارد شوید")
+                                        {
+                                            <a asp-page="UserDetails" asp-route-id="@item.Schedule.UserId" class="lighten-5" title=" مشخصات کاربر ">
+                                                <i class="ft-info font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a class="info" title=" پیوستن به جلسه ">
+                                                <i class="ft-play-circle font-medium-3 mr-2"></i>
+                                            </a>
+                                        }
+                                        else if (item.Status == "ویزیت شروع نشده")
+                                        {
+                                            <a asp-page="UserDetails" asp-route-id="@item.Schedule.UserId" class="lighten-5" title=" مشخصات کاربر ">
+                                               دیدن مشخصات کاربر <i class="ft-info font-medium-3 mr-2" style="vertical-align: -4px"></i>
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        <div class="addnewdoc">
+                            <a class="btn btn-info" asp-page="Create">
+                                <span class="icon-plus"></span>
+                            </a>
+
+                        </div>
+                        <p> <span class="ft-info info"></span> برای ورود به اتاق ویزیت بر روی علامت <span class="ft-play-circle info"></span> کلیک کنید </p>
+                    }
+                    else
+                    {
+                        <div class="bg-warning">
+                            <p class="p-3">
+                                زمانی برای نشان دادن موجود نیست. برای اضافه کردن زمان بندی روی
+                                <a asp-page="Create">این لینک </a>
+                                کلیک کنید.
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavManageTimes").addClass("active");
+        });
+    </script>
+}

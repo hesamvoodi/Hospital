@@ -1,0 +1,106 @@
+﻿@page
+@model Hospital.Pages.CompleteDoctorDataModel
+@{
+    Layout = "/Pages/Shared/_ConfirmLayout.cshtml";
+    ViewData["Title"] = "تکمیل اطلاعات";
+}
+
+<div class="card-header bg-white">
+    <h4 class="card-title" id="basic-layout-form"> تکمیل اطلاعات </h4>
+    <p class="mb-0"> دکتر عزیز لطفا اطلاعات خواسته شده را وارد کنید </p>
+</div>
+<div class="card-content">
+    <div class="px-3">
+        <form class="form" method="post" enctype="multipart/form-data">
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> اطلاعات شخصی </h4>
+                <div asp-validation-summary="All" class="text-warning"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Doctor.FirstName"> نام <span class="text-danger"> *</span></label>
+                            <input asp-for="Doctor.FirstName" type="text" class="form-control" placeholder=" نام خود را اینجا وارد کنید ">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Doctor.LastName"> نام خانوادگی <span class="text-danger"> *</span></label>
+                            <input asp-for="Doctor.LastName" type="text" class="form-control" placeholder=" نام خانوادگی خود را اینجا وارد کنید ">
+                        </div>
+                    </div>
+                </div>
+
+
+                <h4 class="form-section"><i class="ft-file-text"></i> جزییات تخصص </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5"> تخصص <span class="text-danger"> *</span></label>
+                            <select asp-for="Doctor.GroupId" asp-items="ViewBag.GroupId" class="form-control">
+                                <option value="" selected="" disabled=""> تخصص خود را وارد کنید </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Doctor.VisitPrice"> هزینه ویزیت <span class="text-danger"> *</span></label>
+                            <input asp-for="Doctor.VisitPrice" type="number" class="form-control" placeholder=" برای مثال 30 هزار تومن " min="10000" step="1000">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Doctor.ExtraTimePricePerMinute"> قیمت هر دقیقه زمان اضافه <span class="text-danger"> *</span></label>
+                            <input asp-for="Doctor.ExtraTimePricePerMinute" type="number" class="form-control" placeholder=" برای مثال 10 هزار تومن " step="1000">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Doctor.VisitTimeSpanInMinute"> طول زمانی هر ویزیت <span class="text-danger"> *</span></label>
+                            <input asp-for="Doctor.VisitTimeSpanInMinute" type="number" class="form-control" placeholder=" مثلا 15 دقیقه " min="5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Doctor.ImageName"> عکس پروفایل </label>
+                    <input name="imgUp" type="file" class="form-control-file">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Doctor.Description"> رزومه کامل دکتر </label>
+                    <textarea asp-for="Doctor.Description" rows="5">
+                        .لطفا رزومه پزشکی خود را به طور کامل در اینجا وارد نمایید تا به کاربران نمایش داده شود                     
+                    </textarea>
+                    <span class="text-info">
+                        لطفا رزومه پزشکی خود را به طور کامل در اینجا وارد نمایید تا به کاربران نمایش داده شود.
+                    </span>
+                </div>
+            </div>
+            <div class="form-actions">
+
+                <button type="submit" form="logOut" class="btn btn-raised btn-raised btn-warning mr-1">
+                    <i class="ft-x"></i> لغو
+                </button>
+
+                <button type="submit" class="btn btn-raised btn-raised btn-primary">
+                    <i class="fa fa-check-square-o"></i> تایید
+                </button>
+            </div>
+        </form>
+        <form id="logOut" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post"></form>
+    </div>
+
+
+
+</div>
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial" />
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Doctor.Description');
+    </script>
+}

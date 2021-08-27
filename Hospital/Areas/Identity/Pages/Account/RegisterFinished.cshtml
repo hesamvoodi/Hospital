@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Pages/Shared/_ConfirmLayout.cshtml";
+}
+
+<div class="card-header bg-white">
+    <h4 class="card-title" id="horz-layout-card-center"> هویت شما تایید شد <span class="icon-check"></span> </h4>
+    <p> هم اکنون می‌توانید وارد حساب کاربری تان شوید </p>
+</div>
+<div class="card-content">
+    <div class="px-3">
+        <div>
+            <img src="/app-assets/Img/check.jpg" alt="user-confrimed" class="center">
+        </div>
+
+        <div class="form-actions center">
+
+            <a asp-page="Login" class="btn btn-raised btn-primary">
+                <i class="fa fa-check-square-o"></i> ورود به حساب کاربری
+            </a>
+
+            <a asp-page="/Index" class="btn btn-raised btn-warning mr-1">
+                <i class="ft-x"></i> صفحه اصلی
+            </a>
+
+        </div>
+    </div>
+</div>
+

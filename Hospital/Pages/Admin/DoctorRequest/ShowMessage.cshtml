@@ -1,0 +1,52 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.Admin.DoctorRequest.ShowMessageModel
+@{
+    ViewData["Title"] = "جزئیات پیام";
+    Layout = "Shared/_AdminPanelLayout";
+}
+<div class="col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body table-responsive">
+                <div class="p-3">
+                    <h4>پیام:</h4>
+                    <p class="font-medium-2">@Model.DoctorTicket.Message</p>
+                    <h4>فایل‌های ضمیمه شده:</h4>
+                    @foreach (var item in Model.DoctorTicket.FilesUpload.Split(','))
+                    {
+                        if (!String.IsNullOrEmpty(item))
+                        {
+                            <div class=" row bg-blue-grey col-4 p-3 mb-2 rounded">
+                                <div col-3>
+                                    <a href="~/TicketFiles/@item" target="_blank" class="btn btn-outline-grey text-black-50">
+                                        @if (item.IsImage())
+                                        {
+                                            <i class="ft-eye"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="ft-download"></i>
+                                        }
+                                    </a>
+                                </div>
+                                <div class="col-9">
+                                    @item
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavDoctorRequest").addClass("active");
+        });
+    </script>
+}

@@ -1,0 +1,91 @@
+﻿@page
+@model Hospital.Pages.SingleDoctorModel
+@{
+    Layout = "Shared/_MainLayout";
+}
+<!-- Page Title -->
+<div class="page-title-area page-title-three">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="page-title-item-two">
+                <h2>دکتر @Model.Doctor.FirstName @Model.Doctor.LastName</h2>
+                <h3>متخصص @Model.Doctor.DoctorGroup.Name</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Title -->
+<!-- Doctor Details -->
+<div class="doctor-details-area pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="doctor-details-item doctor-details-left">
+                    @if (Model.Doctor.ImageName != null)
+                    {
+                        <img src="~/DoctorImage/@Model.Doctor.ImageName" alt="Doctor">
+                    }
+                    else
+                    {
+                        <img src="~/MainAssets/img/profile.jpg" alt="Doctor">
+                    }
+                    <div class="row doctor-details-contact doctor-details-work">
+                        <h3>رزرو وقت</h3>
+                        <ul>
+                            <li>
+                                 <i class="icofont-money"></i> قیمت ویزیت: @Model.Doctor.VisitPrice تومان
+                            </li> 
+                            <li>
+                                <i class="icofont-ui-clock"></i> طول زمانی ویزیت: @Model.Doctor.VisitTimeSpanInMinute دقیقه
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <form asp-page="/Reservation" method="get">
+                                <div class="col-12 form-group row mt-3">
+                                    <div class="col-12">
+                                        <label class="pb-2">وقت‌های موجود دکتر</label>
+                                        <select asp-items="Model.DaysList" class="form-control" asp-for="ScheduleId">
+                                            <option value="" selected disabled>روز ویزیت</option>
+                                        </select>
+                                        <span asp-validation-for="ScheduleId"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 p-3 row">
+                                    <button type="submit" class="col-12 btn btn-lg btn-primary">رزرو وقت</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="doctor-details-item">
+                    <div class="doctor-details-right">
+                        <div class="doctor-details-biography">
+                            <h3>بیوگرافی</h3>
+
+                            @if (Model.Doctor.Description != null)
+                            {
+                                <p>
+                                    @Html.Raw(Model.Doctor.Description)
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="text-white bg-warning p-3">
+                                    توضیحاتی برای نمایش موجود نمی‌باشد!
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Doctor Details -->
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial"/>
+}

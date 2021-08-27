@@ -1,0 +1,216 @@
+﻿@page
+@using Hospital.Models.Enums
+@using Hospital.Utilities
+@model Hospital.Pages.UserPanel.EditProfileModel
+@{
+    ViewData["Title"] = "ویرایش اطلاعات";
+    Layout = "~/Pages/Shared/_UserPanelLayout.cshtml";
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form"> تکمیل اطلاعات </h4>
+            <p class="mb-0"> لطفا اطلاعات خواسته شده را به درستی وارد کنید </p>
+        </div>
+        <div class="card-content">
+            <div class="px-3">
+                <form class="form" method="post" enctype="multipart/form-data">
+                    <div class="form-body">
+                        <h4 class="form-section"><i class="ft-user"></i> اطلاعات شخصی </h4>
+                        <div asp-validation-summary="All" class="row text-warning"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.Name">نام<span class="text-danger"> *</span></label>
+                                    <input type="text" asp-for="UserInfo.Name" class="form-control" placeholder=" نام خود را اینجا وارد کنید ">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.LastName"> نام خانوادگی <span class="text-danger"> *</span> </label>
+                                    <input asp-for="UserInfo.LastName" type="text" class="form-control" placeholder=" نام خانوادگی خود را اینجا وارد کنید">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.HeightCm"> قد به سانتی متر <span class="text-danger"> *</span></label>
+                                    <input asp-for="UserInfo.HeightCm" type="number" class="form-control" placeholder=" قد خود را اینجا وارد کنید">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.WeightKg"> وزن به کیلو گرم <span class="text-danger"> *</span></label>
+                                    <input asp-for="UserInfo.WeightKg" type="number" class="form-control" placeholder=" وزن خود را اینجا وارد کنید ">
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="form-section"><i class="ft-file-text"></i> جزییات </h4>
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 form-group">
+                                <label asp-for="UserInfo.Age"> سن </label>
+                                <input asp-for="UserInfo.Age" type="number" class="form-control" placeholder="لطفا سن خود را وارد کنید.">
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.Gender"> جنسیت <span class="text-danger"> *</span></label>
+                                    <select asp-for="UserInfo.Gender" asp-items="Html.GetEnumSelectList(typeof(Gender))" class="form-control">
+                                        <option value="" selected="" disabled="">جنسیت خود را انتخاب کنید</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.BloodType"> گروه خونی </label>
+                                    <select class="form-control" asp-for="UserInfo.BloodType" asp-items="Html.GetEnumSelectList(typeof(BloodType))">
+                                        <option value="" selected="" disabled=""> گروه خونی خود را انتخاب کنید </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="UserInfo.DiseaseBackground"> سابقه بیماری </label>
+                                    <input asp-for="UserInfo.DiseaseBackground" type="text" class="form-control" placeholder="اگر سابقه بیماری دارید اینجا وارد نمایید.">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label asp-for="UserInfo.ExtraDescription"> توضیحات تکمیلی </label>
+                            <textarea asp-for="UserInfo.ExtraDescription" rows="5" class="form-control" placeholder=" اگر مورد خاصی هست که لازم است دکتر اگاه باشد اینجا بنویسید "></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserInfo.ExtraDescription"> آپلود فایل برای دکتر: </label><br />
+                            @if (Model.UserInfo.FileName != null)
+                            {
+                                <input type="hidden" asp-for="UserInfo.FileName" />
+                            }
+                            <img style="max-width: 10%"/>
+
+                            <input type="file" name="imgUp" id="imgUp" />
+                        </div>
+                        @if (Model.UserInfo.FileName != null)
+                        {
+                            <div class="form-group">
+                                <label>فایل فعلی:</label>
+                                <div class=" row bg-blue-grey col-4 p-3 mb-2 rounded">
+                                    <div class="col-3">
+                                        <a href="~/UserFile/@Model.UserInfo.FileName" target="_blank" class="btn btn-outline-grey text-black-50">
+                                            @if (Model.UserInfo.FileName.IsImage())
+                                            {
+                                                <i class="ft-eye"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="ft-download"></i>
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="col-9">
+                                        @Model.UserInfo.FileName
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-raised btn-raised btn-primary">
+                            <i class="fa fa-check-square-o"></i> تایید
+                        </button>
+                    </div>
+                </form>
+                <form id="logOut" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" method="post"></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavEditProfile").addClass("active");
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#currentImg').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        $("#imgUp").change(function () {
+            readURL(this);
+        });
+    </script>
+    @if (Model.EditProfileStatus == true)
+    {
+        <script>
+            $(document).ready(function () {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-full-width",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.success('موفق', "اطلاعات با موفقیت ویرایش شد.");
+            });
+        </script>
+
+    }
+    @if (Model.EditProfileStatus == false)
+    {
+        <script>
+            $(document).ready(function () {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-full-width",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.error('خطا!', 'مشکلی رخ داد لطفا دوباره تلاش کنید.');
+            });
+        </script>
+
+    }
+}

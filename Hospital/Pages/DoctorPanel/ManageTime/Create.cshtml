@@ -1,0 +1,130 @@
+﻿@page
+@model Hospital.Pages.DoctorPanel.ManageTime.CreateModel
+@{
+    Layout = "~/Pages/Shared/_DoctorPanelLayout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title" id="basic-layout-tooltip"> زمان بندی دکتر </h4>
+            <p class="mb-0"> لطفا بازه زمانی ای که میتوانید بیماران را ویزیت کنید وارد کنید. </p>
+        </div>
+        <div class="card-content">
+            <div class="px-3">
+
+                <form class="form" method="post">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div asp-validation-summary="All" class="text-warning"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 centerr">
+                                <div class="form-group">
+                                    <label asp-for="Schedule.Date"> @Html.DisplayNameFor(m => m.Schedule.Date) : </label>
+                                    <input asp-for="Schedule.Date" type="text" id="from-date" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Schedule.StartTime"> @Html.DisplayNameFor(m => m.Schedule.StartTime) : </label>
+                                    <div class="position-relative has-icon-left">
+                                        <input asp-for="Schedule.StartTime" type="time" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Schedule.EndTime"> @Html.DisplayNameFor(m => m.Schedule.EndTime) : </label>
+                                    <div class="position-relative has-icon-left">
+                                        <input asp-for="Schedule.EndTime" type="time" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Schedule.RestPerPatient"> </label>
+                            <input asp-for="Schedule.RestPerPatient" type="number" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Schedule.MaximumExtraMinute"> </label>
+                            <input asp-for="Schedule.MaximumExtraMinute" type="number" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label> توضیحات </label>
+                            <div class="card bg-warning">
+                                <div class="card-body ">
+                                    <p class="card-text">
+                                        لطفا ابتدا بازه ای در یک روز در ساعت های معین را مشخص کنید و در آن بازه با توجه به زمان ویزیت شما در پروفایل وقت ها توسط سیستم ساخته می‌شود.
+                                    </p>
+                                    <p class="card-text">
+                                        <b> @Html.DisplayNameFor(m => m.Schedule.RestPerPatient) :</b> این فیلد نشان دهنده میزان استراحت شما میان هر ویزیت در بازه مشخص شده است. هرچه میزان استراحت را بیشتر تعیین کنید حداکثر وقت اضافه را هم به همان نسبت بیشتر می‌توانید تعریف کنید.
+                                    </p>
+                                    <p class="card-text">
+                                        <b> @Html.DisplayNameFor(m => m.Schedule.MaximumExtraMinute)</b> : عدد وارد شده در این فیلد حداکثر زمانی که کاربر می‌تواند برای ویزیت وقت اضافه بخرد را معین می‌کند( در نظر داشته باشید وقت اضافه های خریداری شده از تایم استراحت شما می‌کاهد؛ اگر مخالف کم شدن زمان استراحت هستید این فیلد را برابر با 0 کنید)
+                                    </p>
+                                    <p class="card-text">
+                                        <b>توجه داشته باشید که حداکثر زمان مجاز باید کوچکتر یا مساوی استراحت میان هر ویزیت باشد!</b>
+                                    </p>
+                                    <p class="card-text">
+                                        <b>اگر در بازه‌ی محدودی امکان ویزیت ندازید می‌توانید باز کامل را وارد کرده و از لیست زمان بندی بازه شلوغ خود را حذف کنید.</b>
+                                    </p>
+                                    <p class="card-text">
+                                        <b>اگر بازه زمانی شما با زمان های دیگران مطابقب داشته باشد زمان های مطابق حذف خواهند شد.</b>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-raised btn-warning mr-1">
+                                <i class="ft-x"></i> لفو
+                            </button>
+                            <button type="submit" class="btn btn-raised btn-primary">
+                                <i class="fa fa-check-square-o"></i> تایید
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial"/>
+    <script type="text/javascript" src="https://unpkg.com/persian-date@latest/dist/persian-date.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#from-date").pDatepicker({
+                format: 'YYYY/MM/DD',
+                calendar: {
+                    persian: {
+                        locale: 'en'
+                    }
+                }
+            });
+        });
+        $(document).ready(function () {
+            $("#NavManageTimes").addClass("active");
+        });
+    </script>
+}
+@section Styles
+{
+    <style>
+        .centerr {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.css">
+}

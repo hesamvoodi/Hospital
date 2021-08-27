@@ -1,0 +1,112 @@
+﻿@page
+@model Hospital.Pages.Admin.Doctor.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_AdminPanelLayout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h4 class="card-title" id="bordered-layout-basic-form">ثبت اطلاعات دکتر</h4>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="card-body">
+            <div class="px-3">
+                <form enctype="multipart/form-data" method="post" class="form form-horizontal form-bordered">
+                    <input type="hidden" asp-for="Doctor.UserId"/>
+                    <input type="hidden" asp-for="Doctor.Id"/>
+                    <input type="hidden" asp-for="Doctor.ImageName"/>
+                    <div class="form-body">
+                        <h4 class="form-section"><i class="ft-user"></i> اطلاعات شخصی </h4>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.FirstName"></label>
+                            <div class="col-md-9">
+                                <input asp-for="Doctor.FirstName" type="text" class="form-control" placeholder=" نام را وارد کنید ">
+                                <span asp-validation-for="Doctor.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.LastName"></label>
+                            <div class="col-md-9">
+                                <input type="text" asp-for="Doctor.LastName" class="form-control" placeholder="  نام خانوادگی  را وارد کنید">
+                                <span asp-validation-for="Doctor.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <h4 class="form-section"><i class="ft-file-text"></i> تخصص و  هزینه </h4>
+
+
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.DoctorGroup"> </label>
+                            <div class="col-md-9">
+                                <select asp-for="Doctor.GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.VisitTimeSpanInMinute"></label>
+                            <div class="col-md-9">
+                                <input type="number" asp-for="Doctor.VisitTimeSpanInMinute" class="form-control" placeholder=" طول زمانی ویزیت را وارد کنید " min="5" />
+                                <span asp-validation-for="Doctor.VisitTimeSpanInMinute" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.VisitPrice"></label>
+                            <div class="col-md-9">
+                                <input type="number" asp-for="Doctor.VisitPrice" class="form-control" placeholder=" مبلغ ویزیت را وارد کنید " min="10000" step="1000" />
+                                <span asp-validation-for="Doctor.VisitPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="Doctor.ExtraTimePricePerMinute"></label>
+                            <div class="col-md-9">
+                                <input type="number" asp-for="Doctor.ExtraTimePricePerMinute" class="form-control" placeholder=" مبلغ هر دقیقه وقت اضافه را وارد کنید " step="1000" />
+                                <span asp-validation-for="Doctor.ExtraTimePricePerMinute" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control"> تغییر عکس دکتر </label>
+                            <div class="col-md-9">
+                                <label id="projectinput8" class="file">
+                                    <input type="file" name="imgUp">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row last">
+                            <label class="col-md-3 label-control" asp-for="Doctor.Description"></label>
+                            <div class="col-md-9">
+                                <textarea id="projectinput9" rows="5" class="form-control" asp-for="Doctor.Description" placeholder=" توضیحات تکمیلی را اینجا بنویسید "></textarea>
+                                <span asp-validation-for="Doctor.Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a asp-page="Index" class="btn btn-raised btn-warning mr-1">
+                            <i class="ft-x"></i> لغو
+                        </a>
+                        <button type="submit" class="btn btn-raised btn-primary">
+                            <i class="fa fa-check-square-o"></i> تایید
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#NavDoctor").addClass("active");
+        });
+    </script>
+}

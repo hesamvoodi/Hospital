@@ -1,0 +1,45 @@
+﻿@page "/register"
+@model RegisterModel
+@{
+    ViewData["Title"] = "ثبت نام";
+    Layout = "/Pages/Shared/_LogLayout.cshtml";
+}
+<div class="card-content">
+    <div class="card-body register-img">
+        <div class="row m-0">
+            <div class="col-lg-6 d-none d-lg-block py-2 text-center">
+                <img src="~/app-assets/img/hospital.jpg" alt="hospital" class="img-fluid mt-3 pl-3" width="400"
+                     height="230">
+            </div>
+            <div class="col-lg-6 col-md-12 px-4 pt-3 bg-white">
+                <h4 class="card-title mb-2"> ثبت نام </h4>
+                <p class="card-text mb-3">
+                    لطفا فرم ثبت نام را کامل کنید.
+                </p>
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input asp-for="Input.Phone" type="tel" class="form-control mb-3" placeholder=" تلفن همراه " />
+                    <input asp-for="Input.Password" type="password" class="form-control mb-3" placeholder=" رمز عبور " />
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control mb-3" placeholder=" تکرار رمز عبور " />
+
+                    <div class="fg-actions d-flex justify-content-between">
+                        <div class="login-btn">
+                            <a asp-page="Login" class="btn btn-outline-primary text-decoration-none">
+                                حساب دارید؟ وارد شوید.
+                            </a>
+                        </div>
+                        <div class="recover-pass">
+                            <button type="submit" class="btn btn-primary text-decoration-none text-white">
+                                ثبت نام
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

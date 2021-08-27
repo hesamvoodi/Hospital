@@ -1,0 +1,50 @@
+﻿@page
+@model Hospital.Pages.Admin.DoctorGroup.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_AdminPanelLayout.cshtml";
+}
+
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="px-3">
+                <form class="form form-horizontal form-bordered" method="post">
+                    <div class="form-body">
+                        <h4 class="form-section"><i class="ft-clipboard"></i> ثبت تخصص جدید  </h4>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" asp-for="DoctorGroup.Name"></label>
+                            <div class="col-md-9">
+                                <input type="text" asp-for="DoctorGroup.Name" class="form-control" placeholder=" نام تخصص را اینجا وارد کنید">
+                                <span asp-validation-for="DoctorGroup.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-actions">
+                            <a asp-page="Index" class="btn btn-raised btn-warning mr-1">
+                                <i class="ft-x"></i> لغو
+                            </a>
+                            <button type="submit" class="btn btn-raised btn-primary">
+                                <i class="fa fa-check-square-o"></i> ثبت
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#NavDoctorGroup").addClass("active");
+        });
+    </script>
+}

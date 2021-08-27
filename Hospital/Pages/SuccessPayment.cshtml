@@ -1,0 +1,107 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.SuccessPaymentModel
+@{    
+    Layout = "Shared/_MainLayout";
+}
+@section Styles
+{
+    <style>
+        h3 {
+            color: #750e18 !important;
+        }
+    </style>
+    
+}
+
+<div class="doctor-details-area pb-70">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-lg-6">
+                    <div class="doctor-details-item">
+                        <div class="doctor-details-biography">
+                            <div class="card p-3" style="@(Model.IsSucceed ? "background-color: #80a3e0;background-image: url(/MainAssets/img/tick.png);" : "background-color: #EB5E55;background-image: url(/MainAssets/img/X.png);")background-repeat: no-repeat;background-position: center;background-size: contain;color: white;border-radius: 44px;">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-12 p-3 text-center">
+                                            <p style="font-size: 20px;">
+                                                @if (Model.IsSucceed)
+                                                {
+                                                    @("وقت با موفقیت رزرو شد. برای مشاهده روی ادامه بزنید.")
+                                                }
+                                                else
+                                                {
+                                                    @("مشکلی در روند پرداخت به وجود آمده لطفا بعدا مجدد تلاش کنید. اگر پولی از حساب شما کم شده تا 24 ساعت آینده به حساب شما برگردانده می‌شود.")
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 p-3">
+                                            <h3>نام دکتر:</h3>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <p style=" font-size: 20px; ">@($"{Model.Schedule.Doctor.FirstName} {Model.Schedule.Doctor.LastName}")</p>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <h3>تخصص:</h3>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <p style=" font-size: 20px; ">@Model.Schedule.Doctor.DoctorGroup.Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 p-3">
+                                            <h3>روز ویزیت:</h3>
+                                        </div>
+                                        <div class="col-6 p-3">
+                                            <p style=" font-size: 20px;">@Model.Schedule.StartDate.ToShamsiDate()</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 p-3">
+                                            <h3>ساعت شروع:</h3>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <p style=" font-size: 20px; ">@Model.Schedule.StartDate.ToShamsiTime()</p>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <h3>ساعت پایان:</h3>
+                                        </div>
+                                        <div class="col-3 p-3">
+                                            <p style=" font-size: 20px; ">@Model.Schedule.EndDate.ToShamsiTime()</p>
+                                        </div>
+                                    </div>
+                                    @if (Model.IsSucceed)
+                                    {
+                                        <div class="row">
+                                            <div class="col-6 p-3">
+                                                <h3>شماره فاکتور:</h3>
+                                            </div>
+                                            <div class="col-6 p-3">
+                                                <p style=" font-size: 20px; ">@Model.FactorNumber</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="row">
+                                        <div class="col-5 pt-3" style="text-align: center;">
+                                            <span>
+                                                قیمت کل:
+                                            </span>
+                                        </div>
+                                        <div class="col-9 p-2 mb-4 mt-2 bg-white m-auto" style="border-radius: 20px;">
+                                            <h1 id="TotalPrice" class="text-center">@Model.Price تومان</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a asp-page="@(Model.IsSucceed ? "/UserPanel/OrderList" : "/Index")" class="btn btn-primary btn-lg col-12 col-md-4 mt-3">@(Model.IsSucceed ? "ادامه" : "خانه")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,87 @@
+﻿@page
+@model Hospital.Pages.DoctorListModel
+@{
+    Layout = "Shared/_MainLayout";
+}
+
+<div class="page-title-area page-title-one">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="page-title-item">
+                <h2>ارتباط با پزشکان ما</h2>
+                <ul>
+                    <li> <a asp-page="/Index">صفحه اصلی</a> </li>
+                    <li> <i class="icofont-simple-left"></i> </li>
+                    <li>پزشکان</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Page Title -->
+<!-- Doctor Search -->
+<div class="doctor-search-area">
+    <div class="container">
+        <form>
+            <div class="row doctor-search-wrap">
+                <div class="col-sm-6 col-lg-5">
+                    <div class="doctor-search-item">
+                        <div class="form-group">
+                             <label>جستجو</label> <input name="doctorNameSearch" value="@Model.DoctorNameSearch" type="text" class="form-control" placeholder="نام پزشک">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-5">
+                    <div class="doctor-search-item">
+                        <div class="form-group">
+                            <i class="icofont-hospital"></i>
+                            <label>دسته بندی</label>
+                            <select name="doctorGroupSearch" class="form-control" asp-items="ViewBag.GroupId">
+                                <option value="">جستجو بر اساس تخصص</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <button type="submit" class="btn btn-outline-primary" style="vertical-align: -24px;">اعمال فیلتر </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> <!-- End Doctor Search -->
+<!-- Doctors -->
+<section class="doctors-area doctors-area-two pt-100">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Doctors)
+            {
+                <div class="col-sm-6 col-lg-4 wow fadeInUp" data-wow-delay=".3s"
+                     style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                    <div class="doctor-item">
+                        <div class="doctor-top">
+                            @if (item.ImageName != null)
+                            {
+                                <img src="~/DoctorImage/@item.ImageName" alt="Doctor"> <a asp-page="/SingleDoctor" asp-route-id="@item.Id">قرار ملاقات</a>
+                            }
+                            else
+                            {
+                                <img src="~/MainAssets/img/profile.jpg" alt="Doctor"> <a asp-page="/SingleDoctor" asp-route-id="@item.Id">قرار ملاقات</a>
+                            }
+                        </div>
+                        <div class="doctor-bottom">
+                            <h3> <a asp-page="/SingleDoctor" asp-route-id="@item.Id">دکتر @($"{item.FirstName} {item.LastName}")</a> </h3> <span>متخصص @item.DoctorGroup.Name</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- End Doctors -->
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavDoctorList").addClass("active");
+        });
+    </script>
+}

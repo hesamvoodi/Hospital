@@ -1,0 +1,148 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.DoctorPanel.ManageTime.UserDetailsModel
+@{
+    ViewData["Title"] = "اطلاعات کاربر";
+    Layout = "/Pages/Shared/_DoctorPanelLayout.cshtml";
+}
+
+<div class="col-12 centerr">
+    <div class="card">
+        <div class="card-header">
+            <h4> اطلاعات کاربر </h4>
+        </div>
+        <div class="card-content">
+            <div class="card-body">
+
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <ul class="no-list-style">
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary"><p><i class="font-small-3"></i> نام: </p></span>
+                                <span class="d-block overflow-hidden"> @Model.UserInfo.Name </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary">
+                                    <p>
+                                        <i class="font-small-3"></i> نام خانوادگی:
+                                    </p>
+                                </span>
+                                <span class="d-block overflow-hidden"> @Model.UserInfo.LastName </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary"><p><i class="font-small-3"></i> گروه خونی: </p></span>
+
+                                @if (Model.UserInfo.BloodType != null)
+                                {
+                                    if (Model.UserInfo.BloodType.ToString().Contains("Plus"))
+                                    {
+                                        <span class="d-block overflow-hidden">
+                                            @Model.UserInfo.BloodType.ToString().Replace("Plus", "+")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="d-block overflow-hidden">
+                                            @Model.UserInfo.BloodType.ToString().Replace("Minus", "-")
+                                        </span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="d-block overflow-hidden">
+                                        ---
+                                    </span>
+                                }
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <ul class="no-list-style">
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary">
+                                    <p>
+                                        <i class="ft-user font-small-3"></i> جنسیت:
+                                    </p>
+                                </span>
+                                <span class="d-block overflow-hidden"> @Model.UserInfo.Gender </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary"><p><i class="font-small-3"></i> قد:</p></span>
+                                <p class="d-block overflow-hidden"> @Model.UserInfo.HeightCm Cm </p>
+                            </li>
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary"><p><i class="font-small-3"></i> وزن: </p></span>
+                                <p class="d-block overflow-hidden"> @Model.UserInfo.WeightKg Kg </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <ul class="no-list-style">
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary">
+                                    <p>
+                                        <i class="ft-smartphone font-small-3"></i> شماره
+                                        تماس:
+                                    </p>
+                                </span>
+                                <span class="d-block overflow-hidden"> @Model.PhoneNumber </span>
+                            </li>
+
+                            <li class="mb-2">
+                                <span class="text-bold-500 primary">
+                                    <p>
+                                        <i class="ft-book font-small-3"></i> زمینه بیماری:
+                                    </p>
+                                </span>
+                                <span class="d-block overflow-hidden"> @(Model.UserInfo.DiseaseBackground ?? "---") </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <label>فایل ضمیمه شده:</label>
+                        <div class=" row bg-blue-grey col-4 p-3 mb-2 rounded m-auto">
+                            <div class="col-3">
+                                <a href="~/UserFile/@Model.UserInfo.FileName" target="_blank" class="btn btn-outline-grey text-black-50">
+                                    @if (Model.UserInfo.FileName.IsImage())
+                                    {
+                                        <i class="ft-eye"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="ft-download"></i>
+                                    }
+                                </a>
+                            </div>
+                            <div class="col-9">
+                                @Model.UserInfo.FileName
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div style="background-color : orange; border-radius: 10px; padding: 5px; margin:10px;">
+            <p> توضیحات تکمیلی بیمار: </p>
+            <p>@(Model.UserInfo.ExtraDescription ?? "بیمار توضیحات تکمیلی وارد نکرده!")</p>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavManageTimes").addClass("active");
+        });
+    </script>
+}

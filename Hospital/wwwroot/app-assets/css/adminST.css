@@ -1,0 +1,18 @@
+.card-content{
+  background-color: #9Dffff;
+  border-radius: 5px;
+}
+
+.addnewdoc{
+  text-align:center;
+}
+td img{
+  height: 45px;
+  width: 50px;
+
+}
+
+.centerr{
+  margin: 0 auto;
+  text-align: center;
+}

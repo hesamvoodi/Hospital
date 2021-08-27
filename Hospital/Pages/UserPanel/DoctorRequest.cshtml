@@ -1,0 +1,101 @@
+﻿@page
+@model Hospital.Pages.UserPanel.DoctorRequestModel
+@{
+    Layout = "/Pages/Shared/_UserPanelLayout.cshtml";
+    ViewData["Title"] = "درخواست دکتر";
+}
+
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="px-3">
+                @if (Model.CanAccess)
+                {
+                    <form class="form form-horizontal form-bordered" method="post" enctype="multipart/form-data" name="mainForm">
+                        <div class="form-body">
+                            <h4 class="form-section"><i class="ft-clipboard"></i> ارسال درخواست پزشک  </h4>
+                            <div asp-validation-summary="All" class="text-warning"></div>
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" asp-for="DoctorTicket.Message"></label>
+                                <div class="col-md-9">
+                                    <textarea asp-for="DoctorTicket.Message" class="form-control" placeholder="اطلاعات کامل از قبیل نام و نام خانوادگی، تخصص، تحصیلات و سابقه خود را اینجا وارد کنید." rows="8"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row last">
+                                <label class="col-md-3 label-control" asp-for="DoctorTicket.FilesUpload"></label>
+                                <div class="col-md-9">
+                                    <input type="file" name="FilesUp" multiple="" />
+                                </div>
+                            </div>
+                            <div class="form-group row last bg-warning p-2 text-black-50">
+                                <p>توجه داشته باشید فقط یک بار میتوانید درخواست بدهید.</p>
+                            </div>
+
+                            <div class="form-actions">
+                                <a onclick="Confirm()" class="btn btn-raised btn-primary text-white">
+                                    <i class="fa fa-check-square-o"></i> ثبت
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="bg-primary p-3 text-white">
+                        <p>درخواست شما با موفقیت ارسال شد لطفا تا پذیرش یا رد کردن صبر کنید.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("#NavDoctorTicket").addClass("active");
+        });
+    </script>
+
+    @if (Model.CanAccess)
+    {
+        <script>
+            function Confirm() {
+                var txt;
+                if (confirm("آیا از فرستادن اطلاعات مطمئن هستید؟")) {
+                    document.forms['mainForm'].submit();
+                }
+            }
+        </script>
+    }
+
+    @if (Model.IsSuccess)
+    {
+        <script>
+            $(document).ready(function () {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-full-width",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.success('تیکت با موفقیت ارسال شد.', 'عملیات موفق');
+            });
+        </script>
+    }
+}

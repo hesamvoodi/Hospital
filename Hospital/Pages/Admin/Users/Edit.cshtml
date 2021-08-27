@@ -1,0 +1,46 @@
+﻿@page
+@model Hospital.Pages.Admin.Users.EditModel
+@{
+    Layout = "Shared/_AdminPanelLayout";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h4 class="card-title" id="bordered-layout-basic-form"> ثبت تخصص جدید </h4>
+
+        </div>
+        <div class="card-body">
+            <div class="px-3">
+                <form class="form form-horizontal form-bordered" method="post">
+                    <div class="form-body">
+                        <h4 class="form-section"><i class="ft-user"></i> نام تخصص  </h4>
+                        <div class="form-group row">
+                            <label asp-for="Role" class="col-md-3 label-control"> نقش کاربر </label>
+                            <div class="col-md-9">
+                                <input asp-for="Id" type="hidden"/>
+                                <select asp-for="Role" asp-items="@ViewBag.RolesList" class="form-control"></select>
+                                <span asp-validation-for="Role"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-actions">
+                            <a asp-page="Index" class="btn btn-raised btn-warning mr-1">
+                                <i class="ft-x"></i> لغو
+                            </a>
+                            <button type="submit" class="btn btn-raised btn-primary">
+                                <i class="fa fa-check-square-o"></i> تایید
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <partial name="Shared/_ValidationScriptsPartial"/>
+}

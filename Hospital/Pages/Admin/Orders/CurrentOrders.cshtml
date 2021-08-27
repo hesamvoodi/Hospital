@@ -1,0 +1,87 @@
+﻿@page
+@using Hospital.Utilities
+@model Hospital.Pages.Admin.Orders.CurrentOrdersModel
+@{
+    ViewData["Title"] = "زمان بندی دکتر";
+    Layout = "~/Pages/Shared/_AdminPanelLayout.cshtml";
+}
+
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+
+            <p> سفارش های جاری </p>
+
+        </div>
+        <div class="card-content">
+            <div class="card-body card-dashboard table-responsive">
+
+                @if (Model.Input.Count > 0)
+                {
+                    <table class="table table-striped table-bordered zero-configuration">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Input[0].Schedule.UserId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Input[0].Schedule.StartDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Input[0].Schedule.EndDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Input[0].Schedule.ExtraMinute)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Input[0].Schedule.Doctor)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Input)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.UserFullName
+                                    </td>
+                                    <td>
+                                        @item.Schedule.StartDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @item.Schedule.EndDate.ToShamsi()
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Schedule.ExtraMinute)
+                                    </td>
+                                    <td>
+                                        @item.DoctorFullName
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        آیتمی برای نمایش موجود نمی‌باشد.
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#NavCurrentOrders").addClass("active");
+            $(".NavOrders").addClass("open");
+        });
+    </script>
+}
